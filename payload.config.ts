@@ -1,12 +1,24 @@
 import path from "path";
 import { fileURLToPath } from "url";
+import { createRequire } from "node:module";
 
 import { buildConfig } from "payload";
 import { postgresAdapter } from "@payloadcms/db-postgres";
 import { lexicalEditor } from "@payloadcms/richtext-lexical";
 import { s3Storage } from "@payloadcms/storage-s3";
 import { nodemailerAdapter } from "@payloadcms/email-nodemailer";
-import sharp from "sharp";
+
+// Load sharp optionally — if its native binary can't be loaded on the host,
+// run without image processing rather than crashing the whole app.
+const requireFn = createRequire(import.meta.url);
+const sharp = (() => {
+  try {
+    return requireFn("sharp");
+  } catch (err) {
+    console.warn("[payload] sharp unavailable — image processing disabled.", err);
+    return undefined;
+  }
+})();
 
 import { Users } from "./payload/collections/Users";
 import { Media } from "./payload/collections/Media";
