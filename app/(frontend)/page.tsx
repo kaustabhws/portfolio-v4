@@ -9,6 +9,7 @@ import Education from "@/components/Education";
 import Services from "@/components/Services";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
+import JsonLd from "@/components/JsonLd";
 import { getSiteData } from "@/lib/data";
 
 // Render per-request so CMS edits show up immediately (and so the build
@@ -20,6 +21,7 @@ export default async function Home() {
 
   return (
     <>
+      <JsonLd data={data} />
       <CustomCursor />
       <Navbar firstName={data.profile.firstName} location={data.profile.location} />
       <main>
