@@ -2,14 +2,21 @@
 
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import Link from "next/link";
 
+// Animated Next.js Link — client-side nav with framer-motion transitions.
+const MotionLink = motion.create(Link);
+
+// Section links are root-absolute (e.g. "/#work") so they resolve from any
+// route — including /blog — and not just the homepage.
 const links = [
-  { label: "About", href: "#about" },
-  { label: "Skills", href: "#skills" },
-  { label: "Work", href: "#work" },
-  { label: "Education", href: "#path" },
-  { label: "Services", href: "#services" },
-  { label: "Contact", href: "#contact" },
+  { label: "About", href: "/#about" },
+  { label: "Skills", href: "/#skills" },
+  { label: "Work", href: "/#work" },
+  { label: "Education", href: "/#path" },
+  { label: "Writing", href: "/blog" },
+  { label: "Services", href: "/#services" },
+  { label: "Contact", href: "/#contact" },
 ];
 
 export default function Navbar({
@@ -62,8 +69,8 @@ export default function Navbar({
     >
       <nav className="relative z-50 mx-auto flex max-w-7xl items-center justify-between px-5 py-4 lg:px-8">
         {/* Logo */}
-        <a
-          href="#top"
+        <Link
+          href="/"
           className="flex items-center gap-3"
           data-testid="nav-logo"
         >
@@ -79,30 +86,30 @@ export default function Navbar({
               Dev · {city}
             </span>
           </span>
-        </a>
+        </Link>
 
         {/* Center capsule — desktop */}
         <div className="glass absolute left-1/2 hidden -translate-x-1/2 items-center gap-1 rounded-full px-2 py-1.5 md:flex">
-          {links.slice(0, 5).map((l) => (
-            <a
+          {links.slice(0, 6).map((l) => (
+            <Link
               key={l.href}
               href={l.href}
               className="rounded-full px-4 py-2 text-sm font-medium text-zinc-300 transition-colors hover:bg-white/10 hover:text-white"
               data-testid={`nav-link-${l.label.toLowerCase()}`}
             >
               {l.label}
-            </a>
+            </Link>
           ))}
         </div>
 
         {/* Right pill — desktop CTA */}
-        <a
-          href="#contact"
+        <Link
+          href="/#contact"
           className="hidden items-center rounded-full bg-white px-6 py-2.5 text-sm font-semibold text-black transition-colors hover:bg-zinc-200 md:inline-flex"
           data-testid="nav-contact-cta"
         >
           Let&apos;s talk
-        </a>
+        </Link>
 
         {/* Mobile toggle */}
         <button
@@ -140,7 +147,7 @@ export default function Navbar({
           >
             <div className="glass-panel overflow-hidden rounded-3xl p-3">
               {links.map((l, i) => (
-                <motion.a
+                <MotionLink
                   key={l.href}
                   href={l.href}
                   onClick={() => setOpen(false)}
@@ -151,7 +158,7 @@ export default function Navbar({
                   data-testid={`nav-mobile-link-${l.label.toLowerCase()}`}
                 >
                   {l.label}
-                </motion.a>
+                </MotionLink>
               ))}
             </div>
           </motion.div>

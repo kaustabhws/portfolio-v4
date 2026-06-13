@@ -215,6 +215,113 @@ body {
   animation: marquee 28s linear infinite;
 }
 
+/* ============================================================
+   BLOG / RICH TEXT  —  long-form article body
+   ============================================================ */
+.prose-blog {
+  font-family: var(--font-sans);
+  color: #d4d4d8;
+  font-size: 1.075rem;
+  line-height: 1.8;
+}
+.prose-blog > * + * {
+  margin-top: 1.5em;
+}
+.prose-blog h2,
+.prose-blog h3,
+.prose-blog h4 {
+  font-family: var(--font-display);
+  color: var(--color-ink);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+  scroll-margin-top: 6rem;
+}
+.prose-blog h2 {
+  font-size: 1.9rem;
+  margin-top: 2.4em;
+}
+.prose-blog h3 {
+  font-size: 1.45rem;
+  margin-top: 2em;
+}
+.prose-blog h4 {
+  font-size: 1.2rem;
+  margin-top: 1.8em;
+}
+.prose-blog a {
+  color: var(--color-cyan);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+  transition: opacity 0.2s ease;
+}
+.prose-blog a:hover {
+  opacity: 0.75;
+}
+.prose-blog strong {
+  color: var(--color-ink);
+  font-weight: 700;
+}
+.prose-blog ul,
+.prose-blog ol {
+  padding-left: 1.5em;
+}
+.prose-blog ul {
+  list-style: disc;
+}
+.prose-blog ol {
+  list-style: decimal;
+}
+.prose-blog li {
+  margin-top: 0.5em;
+}
+.prose-blog li::marker {
+  color: var(--color-faint);
+}
+.prose-blog blockquote {
+  border-left: 2px solid var(--color-cyan);
+  padding-left: 1.25em;
+  color: var(--color-muted);
+  font-style: italic;
+}
+.prose-blog :not(pre) > code {
+  font-family: var(--font-mono);
+  font-size: 0.875em;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--color-line);
+  border-radius: 6px;
+  padding: 0.15em 0.4em;
+  color: var(--color-cyan);
+}
+.prose-blog pre {
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  line-height: 1.65;
+  background: #0a0a0c;
+  border: 1px solid var(--color-line);
+  border-radius: 14px;
+  padding: 1.25rem 1.4rem;
+  overflow-x: auto;
+}
+.prose-blog pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  color: #e4e4e7;
+}
+.prose-blog img {
+  border-radius: 16px;
+  border: 1px solid var(--color-line);
+  width: 100%;
+  height: auto;
+}
+.prose-blog hr {
+  border: none;
+  border-top: 1px solid var(--color-line);
+  margin: 2.5em 0;
+}
+
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
   html {

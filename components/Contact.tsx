@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { ArrowUpRight, Copy, Check, CircleNotch, Warning } from "@phosphor-icons/react";
 import Reveal from "./Reveal";
 import SectionLabel from "./SectionLabel";
@@ -94,7 +95,7 @@ export default function Contact({ profile }: { profile: ProfileData }) {
 
                 <div className="flex flex-wrap gap-3">
                   {profile.socials.map((s) => (
-                    <a
+                    <Link
                       key={s.label}
                       href={s.href}
                       target="_blank"
@@ -104,7 +105,7 @@ export default function Contact({ profile }: { profile: ProfileData }) {
                     >
                       {s.label}
                       <ArrowUpRight className="opacity-50 transition-opacity group-hover:opacity-100" />
-                    </a>
+                    </Link>
                   ))}
                 </div>
               </div>

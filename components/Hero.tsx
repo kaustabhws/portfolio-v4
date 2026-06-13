@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowDown, ArrowUpRight } from "@phosphor-icons/react";
 import type { ProfileData } from "@/lib/data";
@@ -75,8 +76,8 @@ export default function Hero({ profile }: { profile: ProfileData }) {
             {profile.tagline} — fusing engineering precision with motion, depth
             and bold typography.
           </p>
-          <a
-            href="#work"
+          <Link
+            href="/#work"
             className="group inline-flex shrink-0 items-center gap-2 rounded-full border border-white/20 px-5 py-3 text-sm font-semibold transition-colors hover:bg-white/10"
             data-testid="hero-view-work"
           >
@@ -85,7 +86,7 @@ export default function Hero({ profile }: { profile: ProfileData }) {
               weight="bold"
               className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
             />
-          </a>
+          </Link>
         </motion.div>
       </div>
 

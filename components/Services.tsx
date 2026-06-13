@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { ArrowUpRight, Check } from "@phosphor-icons/react/dist/ssr";
 import Reveal from "./Reveal";
 import SectionLabel from "./SectionLabel";
@@ -71,8 +72,8 @@ export default function Services({ services }: { services: Service[] }) {
 
       {/* CTA banner */}
       <Reveal delay={0.1}>
-        <a
-          href="#contact"
+        <Link
+          href="/#contact"
           className="glass glass-hover mt-6 flex flex-col items-center justify-between gap-6 rounded-3xl p-10 text-center sm:flex-row sm:text-left"
           data-testid="services-cta"
         >
@@ -85,7 +86,7 @@ export default function Services({ services }: { services: Service[] }) {
           <span className="inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 font-semibold text-black">
             Get in touch <ArrowUpRight weight="bold" />
           </span>
-        </a>
+        </Link>
       </Reveal>
     </section>
   );

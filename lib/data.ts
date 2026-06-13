@@ -1,6 +1,7 @@
 import { cache } from "react";
 import { getPayload } from "payload";
 import config from "@payload-config";
+import { getProjectPostSlugs } from "./blog";
 
 import {
   profile as seedProfile,
@@ -29,7 +30,7 @@ export type ProfileData = {
   email: string;
   available: boolean;
   blurb: string;
-  socials: { label: string; handle: string; href: string }[];
+  socials: { label: string; href: string }[];
 };
 
 export type SiteData = {
@@ -81,13 +82,14 @@ export const getSiteData = cache(async (): Promise<SiteData> => {
   try {
     const payload = await getPayload({ config });
 
-    const [profileDoc, projectsRes, educationRes, servicesRes, skillsRes] =
+    const [profileDoc, projectsRes, educationRes, servicesRes, skillsRes, postSlugs] =
       await Promise.all([
         payload.findGlobal({ slug: "profile", depth: 1 }),
         payload.find({ collection: "projects", sort: "order", limit: 100, depth: 1 }),
         payload.find({ collection: "education", sort: "order", limit: 100 }),
         payload.find({ collection: "services", sort: "order", limit: 100 }),
         payload.find({ collection: "skill-groups", sort: "order", limit: 100 }),
+        getProjectPostSlugs(),
       ]);
 
     const seed = seedData();
@@ -98,7 +100,7 @@ export const getSiteData = cache(async (): Promise<SiteData> => {
     }
 
     const p = profileDoc as Record<string, unknown> & {
-      socials?: { label?: string; handle?: string; href?: string }[];
+      socials?: { label?: string; href?: string }[];
       stats?: { value?: string; label?: string }[];
       marquee?: { skill?: string }[];
       portrait?: unknown;
@@ -117,7 +119,6 @@ export const getSiteData = cache(async (): Promise<SiteData> => {
       socials:
         p.socials?.map((s) => ({
           label: s.label ?? "",
-          handle: s.handle ?? "",
           href: s.href ?? "#",
         })) ?? seed.profile.socials,
     };
@@ -126,6 +127,9 @@ export const getSiteData = cache(async (): Promise<SiteData> => {
       const doc = d as Record<string, unknown> & {
         tags?: { tag?: string }[];
       };
+      // If a published post links to this project, the card deep-links to the
+      // write-up; otherwise it keeps its configured project URL.
+      const postSlug = postSlugs[String(doc.id ?? "")];
       return {
         title: (doc.title as string) ?? "",
         category: (doc.category as string) ?? "",
@@ -134,7 +138,8 @@ export const getSiteData = cache(async (): Promise<SiteData> => {
         tags: doc.tags?.map((t) => t.tag ?? "").filter(Boolean) ?? [],
         image: mediaUrl(doc.image, seed.projects[0].image),
         accent: asAccent(doc.accent),
-        href: (doc.href as string) || "#",
+        href: postSlug ? `/blog/${postSlug}` : (doc.href as string) || "#",
+        postSlug,
         featured: Boolean(doc.featured),
       };
     });

@@ -31,7 +31,6 @@ export const Profile: GlobalConfig = {
       labels: { singular: "Social link", plural: "Social links" },
       fields: [
         { name: "label", type: "text", required: true },
-        { name: "handle", type: "text" },
         { name: "href", type: "text" },
       ],
     },

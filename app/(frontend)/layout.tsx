@@ -32,6 +32,9 @@ export async function generateMetadata(): Promise<Metadata> {
   const title = `${name} — ${profile.role}`;
   const description = profile.blurb;
   const topSkills = skills.flatMap((g) => g.items.map((i) => i.name)).slice(0, 8);
+  // Derive an @handle for the Twitter card from the X/Twitter profile URL.
+  const twitterUrl = profile.socials.find((s) => /twitter|x/i.test(s.label))?.href;
+  const twitterHandle = twitterUrl?.match(/(?:twitter|x)\.com\/@?([A-Za-z0-9_]+)/i)?.[1];
 
   return {
     metadataBase: new URL(SITE_URL),
@@ -66,7 +69,7 @@ export async function generateMetadata(): Promise<Metadata> {
       card: "summary_large_image",
       title,
       description: profile.tagline || description,
-      creator: profile.socials.find((s) => /twitter|x/i.test(s.label))?.handle,
+      creator: twitterHandle ? `@${twitterHandle}` : undefined,
     },
     robots: {
       index: true,

@@ -14,10 +14,10 @@ export const profile = {
   blurb:
     "Creative developer and 3D web engineer crafting interfaces that feel alive. I blend rigorous frontend engineering with motion, depth, and a love for typography to ship work that surprises and performs.",
   socials: [
-    { label: "GitHub", handle: "@alexrivera", href: "https://github.com" },
-    { label: "X / Twitter", handle: "@alexrivera", href: "https://x.com" },
-    { label: "LinkedIn", handle: "in/alexrivera", href: "https://linkedin.com" },
-    { label: "Dribbble", handle: "@alexrivera", href: "https://dribbble.com" },
+    { label: "GitHub", href: "https://github.com" },
+    { label: "X / Twitter", href: "https://x.com" },
+    { label: "LinkedIn", href: "https://linkedin.com" },
+    { label: "Dribbble", href: "https://dribbble.com" },
   ],
 };
 
@@ -92,6 +92,8 @@ export type Project = {
   accent: "cyan" | "magenta" | "yellow";
   href: string;
   featured?: boolean;
+  /** Slug of a linked blog write-up, if one exists. Card deep-links here. */
+  postSlug?: string;
 };
 
 export const projects: Project[] = [

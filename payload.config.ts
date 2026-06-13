@@ -23,6 +23,7 @@ const sharp = (() => {
 import { Users } from "./payload/collections/Users";
 import { Media } from "./payload/collections/Media";
 import { Projects } from "./payload/collections/Projects";
+import { Posts } from "./payload/collections/Posts";
 import { Education } from "./payload/collections/Education";
 import { Services } from "./payload/collections/Services";
 import { SkillGroups } from "./payload/collections/SkillGroups";
@@ -71,7 +72,7 @@ export default buildConfig({
       titleSuffix: " · Portfolio",
     },
   },
-  collections: [Users, Media, Projects, Education, Services, SkillGroups],
+  collections: [Users, Media, Projects, Posts, Education, Services, SkillGroups],
   globals: [Profile],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || "",

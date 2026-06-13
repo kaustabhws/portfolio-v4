@@ -2,6 +2,7 @@
 
 import { useRef } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import {
   motion,
   useMotionValue,
@@ -12,6 +13,9 @@ import { ArrowUpRight } from "@phosphor-icons/react";
 import Reveal from "./Reveal";
 import SectionLabel from "./SectionLabel";
 import { type Project } from "@/lib/content";
+
+// Animated Next.js Link — client-side nav with the 3D tilt interaction.
+const MotionLink = motion.create(Link);
 
 const accentColor: Record<string, string> = {
   cyan: "#00f0ff",
@@ -46,7 +50,7 @@ function TiltCard({ project, featured }: { project: Project; featured?: boolean 
   };
 
   return (
-    <motion.a
+    <MotionLink
       href={project.href}
       ref={ref}
       onMouseMove={handleMove}
@@ -97,6 +101,15 @@ function TiltCard({ project, featured }: { project: Project; featured?: boolean 
           {project.description}
         </p>
 
+        {project.postSlug && (
+          <span
+            className="mt-4 inline-flex items-center gap-1.5 text-xs font-semibold"
+            style={{ color: accentColor[project.accent] }}
+          >
+            Read the build <ArrowUpRight weight="bold" />
+          </span>
+        )}
+
         <div className="mt-5 flex flex-wrap gap-2">
           {project.tags.map((t) => (
             <span
@@ -108,7 +121,7 @@ function TiltCard({ project, featured }: { project: Project; featured?: boolean 
           ))}
         </div>
       </div>
-    </motion.a>
+    </MotionLink>
   );
 }
 
@@ -125,12 +138,12 @@ export default function Projects({ projects }: { projects: Project[] }) {
           </Reveal>
         </div>
         <Reveal delay={0.1}>
-          <a
-            href="#contact"
+          <Link
+            href="/#contact"
             className="inline-flex items-center gap-2 rounded-full border border-white/20 px-5 py-3 text-sm font-semibold transition-colors hover:bg-white/10"
           >
             Start a project <ArrowUpRight weight="bold" />
-          </a>
+          </Link>
         </Reveal>
       </div>
 

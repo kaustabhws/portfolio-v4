@@ -1,18 +1,28 @@
 import type { MetadataRoute } from "next";
 import { SITE_URL } from "@/lib/seo";
+import { getPublishedPosts } from "@/lib/blog";
 
-export default function sitemap(): MetadataRoute.Sitemap {
-  const lastModified = new Date();
+export const dynamic = "force-dynamic";
 
-  // Single-page portfolio: the homepage is the canonical entry. Section
-  // anchors (#about, #projects, …) live on the same document, so they don't
-  // each warrant their own <url> entry.
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const now = new Date();
+  const posts = await getPublishedPosts();
+
+  const postEntries: MetadataRoute.Sitemap = posts.map((p) => ({
+    url: `${SITE_URL}/blog/${p.slug}`,
+    lastModified: p.publishedAt ? new Date(p.publishedAt) : now,
+    changeFrequency: "monthly",
+    priority: 0.7,
+  }));
+
   return [
+    { url: SITE_URL, lastModified: now, changeFrequency: "monthly", priority: 1 },
     {
-      url: SITE_URL,
-      lastModified,
-      changeFrequency: "monthly",
-      priority: 1,
+      url: `${SITE_URL}/blog`,
+      lastModified: postEntries[0]?.lastModified ?? now,
+      changeFrequency: "weekly",
+      priority: 0.8,
     },
+    ...postEntries,
   ];
 }
