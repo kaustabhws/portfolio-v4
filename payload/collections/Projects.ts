@@ -45,6 +45,24 @@ export const Projects: CollectionConfig = {
         description: "Optional secondary URL (e.g. an admin/dashboard) — 'Admin' button.",
       },
     },
+    {
+      name: "demoCredentials",
+      type: "group",
+      label: "Demo login (optional)",
+      admin: {
+        description:
+          "If the live site has a demo account, fill these in. ONLY use throwaway demo creds — these are shown publicly on the card.",
+      },
+      fields: [
+        {
+          type: "row",
+          fields: [
+            { name: "email", type: "text", admin: { width: "50%" } },
+            { name: "password", type: "text", admin: { width: "50%" } },
+          ],
+        },
+      ],
+    },
     { name: "featured", type: "checkbox", defaultValue: false },
     {
       name: "order",

@@ -9,7 +9,11 @@
     "lint": "eslint",
     "payload": "payload",
     "generate:types": "payload generate:types",
-    "generate:importmap": "payload generate:importmap"
+    "generate:importmap": "payload generate:importmap",
+    "migrate": "payload migrate",
+    "migrate:create": "payload migrate:create",
+    "migrate:status": "payload migrate:status",
+    "vercel-build": "payload migrate && next build"
   },
   "dependencies": {
     "@payloadcms/db-postgres": "^3.85.1",

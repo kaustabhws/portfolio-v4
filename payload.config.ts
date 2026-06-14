@@ -83,6 +83,10 @@ export default buildConfig({
     pool: {
       connectionString: process.env.DATABASE_URI || "",
     },
+    // Commit every schema change as a migration in ./migrations and run
+    // them on deploy. Prod doesn't run dev's auto-push, so this is what
+    // keeps the prod schema in sync with the deployed code.
+    migrationDir: path.resolve(dirname, "migrations"),
   }),
   plugins: storagePlugins,
   ...(emailConfigured

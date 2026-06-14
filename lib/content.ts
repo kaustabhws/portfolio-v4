@@ -95,6 +95,9 @@ export type Project = {
   github?: string;
   liveUrl?: string;
   adminUrl?: string;
+  /** Optional throwaway demo creds for the live site. */
+  demoEmail?: string;
+  demoPassword?: string;
   featured?: boolean;
   /** Slug of a linked blog write-up, if one exists. Card deep-links here. */
   postSlug?: string;

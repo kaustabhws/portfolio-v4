@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -14,6 +14,9 @@ import {
   GithubLogo,
   Storefront,
   Gauge,
+  Copy,
+  Check,
+  Key,
 } from "@phosphor-icons/react";
 import Reveal from "./Reveal";
 import SectionLabel from "./SectionLabel";
@@ -24,6 +27,79 @@ const accentColor: Record<string, string> = {
   magenta: "#ff003c",
   yellow: "#ffb800",
 };
+
+function CopyField({
+  value,
+  label,
+  accent,
+}: {
+  value: string;
+  label: string;
+  accent: string;
+}) {
+  const [copied, setCopied] = useState(false);
+  const copy = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    navigator.clipboard.writeText(value).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1400);
+    });
+  };
+  return (
+    <button
+      type="button"
+      onClick={copy}
+      className="group/copy flex w-full items-center justify-between gap-2 rounded-lg border border-white/10 bg-black/30 px-3 py-2 text-left transition-colors hover:border-white/25"
+      title={`Copy ${label.toLowerCase()}`}
+    >
+      <div className="flex min-w-0 flex-col">
+        <span
+          className="font-mono text-[0.62rem] uppercase tracking-[0.2em]"
+          style={{ color: accent }}
+        >
+          {label}
+        </span>
+        <span className="truncate font-mono text-xs text-zinc-300">{value}</span>
+      </div>
+      <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md border border-white/10 text-zinc-400 transition-colors group-hover/copy:border-white/30 group-hover/copy:text-white">
+        {copied ? <Check weight="bold" /> : <Copy />}
+      </span>
+    </button>
+  );
+}
+
+function DemoCreds({
+  email,
+  password,
+  accent,
+}: {
+  email: string;
+  password: string;
+  accent: string;
+}) {
+  return (
+    <div className="relative z-20 mx-7 mt-5 rounded-2xl border border-white/10 bg-white/[0.03] p-4">
+      <div className="mb-3 flex items-center gap-2">
+        <Key
+          weight="bold"
+          className="h-3.5 w-3.5"
+          style={{ color: accent }}
+        />
+        <span
+          className="font-mono text-[0.62rem] uppercase tracking-[0.22em]"
+          style={{ color: accent }}
+        >
+          Demo login
+        </span>
+      </div>
+      <div className="grid gap-2 sm:grid-cols-2">
+        <CopyField value={email} label="Email" accent={accent} />
+        <CopyField value={password} label="Password" accent={accent} />
+      </div>
+    </div>
+  );
+}
 
 function LinkButton({
   href,
@@ -161,6 +237,16 @@ function TiltCard({ project, featured }: { project: Project; featured?: boolean 
           )}
         </div>
       </div>
+
+      {/* Demo credentials block — interactive copy buttons sit above the
+          stretched link via z-index so clicks don't trigger navigation. */}
+      {project.demoEmail && project.demoPassword && (
+        <DemoCreds
+          email={project.demoEmail}
+          password={project.demoPassword}
+          accent={accent}
+        />
+      )}
 
       {/* Footer link buttons — sit above the stretched link (own anchors). */}
       {hasLinks && (

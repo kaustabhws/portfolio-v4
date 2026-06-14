@@ -134,6 +134,9 @@ export const getSiteData = cache(async (): Promise<SiteData> => {
       const primary = postSlug
         ? `/blog/${postSlug}`
         : liveUrl || (doc.href as string) || "#";
+      const demo = doc.demoCredentials as
+        | { email?: string; password?: string }
+        | undefined;
       return {
         title: (doc.title as string) ?? "",
         category: (doc.category as string) ?? "",
@@ -147,6 +150,8 @@ export const getSiteData = cache(async (): Promise<SiteData> => {
         github: (doc.github as string) || undefined,
         liveUrl: liveUrl || undefined,
         adminUrl: (doc.adminUrl as string) || undefined,
+        demoEmail: demo?.email || undefined,
+        demoPassword: demo?.password || undefined,
         postSlug,
         featured: Boolean(doc.featured),
       };
@@ -200,8 +205,11 @@ export const getSiteData = cache(async (): Promise<SiteData> => {
       education: education.length ? education : seed.education,
       aboutImage: mediaUrl(p.portrait, seed.aboutImage),
     };
-  } catch {
-    // No database / not configured yet — render from the static seed.
+  } catch (err) {
+    // Loud about real errors — a silent swap to the seed once cost us a day
+    // of "why is the site showing Alex Rivera again." Schema drift between
+    // a deploy and the prod DB shows up here, and we want to see it.
+    console.error("[getSiteData] CMS query failed — falling back to seed.", err);
     return seedData();
   }
 });
