@@ -28,6 +28,23 @@ export const Projects: CollectionConfig = {
     },
     accentField,
     { name: "href", type: "text", defaultValue: "#" },
+    {
+      name: "github",
+      type: "text",
+      admin: { description: "GitHub repository URL — shown as a 'Code' button." },
+    },
+    {
+      name: "liveUrl",
+      type: "text",
+      admin: { description: "Primary live site URL — shown as a 'Live' button." },
+    },
+    {
+      name: "adminUrl",
+      type: "text",
+      admin: {
+        description: "Optional secondary URL (e.g. an admin/dashboard) — 'Admin' button.",
+      },
+    },
     { name: "featured", type: "checkbox", defaultValue: false },
     {
       name: "order",

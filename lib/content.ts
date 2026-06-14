@@ -88,9 +88,13 @@ export type Project = {
   year: string;
   description: string;
   tags: string[];
+  /** Cover image URL, or "" to render a gradient placeholder. */
   image: string;
   accent: "cyan" | "magenta" | "yellow";
   href: string;
+  github?: string;
+  liveUrl?: string;
+  adminUrl?: string;
   featured?: boolean;
   /** Slug of a linked blog write-up, if one exists. Card deep-links here. */
   postSlug?: string;

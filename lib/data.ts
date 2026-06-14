@@ -128,17 +128,25 @@ export const getSiteData = cache(async (): Promise<SiteData> => {
         tags?: { tag?: string }[];
       };
       // If a published post links to this project, the card deep-links to the
-      // write-up; otherwise it keeps its configured project URL.
+      // write-up; otherwise it falls back to the live URL or configured href.
       const postSlug = postSlugs[String(doc.id ?? "")];
+      const liveUrl = (doc.liveUrl as string) || "";
+      const primary = postSlug
+        ? `/blog/${postSlug}`
+        : liveUrl || (doc.href as string) || "#";
       return {
         title: (doc.title as string) ?? "",
         category: (doc.category as string) ?? "",
         year: (doc.year as string) ?? "",
         description: (doc.description as string) ?? "",
         tags: doc.tags?.map((t) => t.tag ?? "").filter(Boolean) ?? [],
-        image: mediaUrl(doc.image, seed.projects[0].image),
+        // Empty string → the card renders a gradient placeholder.
+        image: mediaUrl(doc.image, ""),
         accent: asAccent(doc.accent),
-        href: postSlug ? `/blog/${postSlug}` : (doc.href as string) || "#",
+        href: primary,
+        github: (doc.github as string) || undefined,
+        liveUrl: liveUrl || undefined,
+        adminUrl: (doc.adminUrl as string) || undefined,
         postSlug,
         featured: Boolean(doc.featured),
       };
